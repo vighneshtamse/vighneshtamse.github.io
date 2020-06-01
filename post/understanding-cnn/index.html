@@ -165,7 +165,7 @@ In this section we would understand the following things in order to understand 
 <p><strong>Feature Map/Activation Map-</strong> The resultant of the convolution operation performed between image and feature detector gives a Feature Map.</p>
 </li>
 </ol>
-<p><img src="images/image-20200216201248797.png" alt="" title="Convolution Operation"></p>
+<p><img src="image-20200216201248797.png" alt="" title="Convolution Operation"></p>
 <p>So how exactly does a convolution operation work?</p>
 <ol>
 <li>We first project the Feature Detector/Filter onto the Input Image beginning from the top left corner. Suppose we take a 3x3 feature detector. So we project it on the first 3x3 pixels of the input image.</li>
@@ -184,7 +184,7 @@ In this section we would understand the following things in order to understand 
 <p><img src="https://miro.medium.com/max/357/1*oePAhrm74RNnNEolprmTaQ.png" alt="Image result for relu activation function"></p>
 <h4 id="c-pooling-layer"><strong>C) Pooling Layer:</strong></h4>
 <p>Pooling is of two types: 1) Max Pooling and 2) Average Pooling. The idea behind both these is as shown in the below image:</p>
-<p><img src="images/image-20200216215400133.png" alt="" title="Pooling"></p>
+<p><img src="image-20200216215400133.png" alt="" title="Pooling"></p>
 <p>From the above image we can get a slight understanding that pooling reduces the size of the image. But why exactly do we do pooling? What&rsquo;s in it for us? Well&hellip; the following points will make you understand that:</p>
 <ol>
 <li>To reduce the size of image such that we focus only on the important aspects of the image instead of the image as a whole.</li>
@@ -200,9 +200,9 @@ In this section we would understand the following things in order to understand 
 <p>But wait! Aren&rsquo;t we losing information while doing this? Yes, definitely we are! But the question here is how much information we can afford to lose without impacting  the model prediction. Perhaps the criteria to choose how often (after how many convolutions) and at what part of the network (at the beginning or at the mid or at the end of the network) to use max pooling depends completely on what this network is being used for.</p>
 <h4 id="d-flattening--fully-connected-network"><strong>D) Flattening &amp; Fully Connected Network:</strong></h4>
 <p>Once we get a pooled feature map of our image, the next step is flattening out the pooled feature map into a column vector like the one shown in the image below:</p>
-<p><img src="images/image-20200216222051338.png" alt="" title="Flattening the Feature Map"></p>
+<p><img src="image-20200216222051338.png" alt="" title="Flattening the Feature Map"></p>
 <p>And why are we doing this? Because we are going to insert this vector into a fully connected neural network to process it further. This vector is given as input to the neural network whose role is to combine a wider variety of attributes and make the CNN more capable to classify images.</p>
-<p><img src="images/image-20200216223021981.png" alt="" title="Fully Connected Network"></p>
+<p><img src="image-20200216223021981.png" alt="" title="Fully Connected Network"></p>
 <h4 id="5-use-case-of-cnn"><strong>5. Use case of CNN:</strong></h4>
 <p>To identify whether the input image is a cat or a dog and similar such use cases.</p>
 <p>I hope you have understood on a high level what exactly is a Convolutional Neural Network and how does it work.</p>

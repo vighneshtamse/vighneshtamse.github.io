@@ -140,12 +140,12 @@ Understanding VGG Net (VGG 16): VGG stands for Visual Geometry Group at Oxford U
 <p>VGG stands for <strong>Visual Geometry Group</strong> at Oxford University.  It was developed by Simonyan and Zisserman for the <strong>ILSVRC (Image Net Large Scale Visual Recognition Challenge)</strong> 2014 competition. It consists if 16 weight layers (13 Convolution layers and 3 Fully Connected layers) with only 3x3 feature detectors or filters. The error percentage for this architecture was around 7%.</p>
 <p>The concept behind VGG net is similar to that of Alexnet, meaning that, as the depth of the network increases, we would increase the number of feature maps or the convolutions. In short, as we go deeper into the network, the number of feature maps increases, so the network becomes wider. There are in total <strong>138 million</strong> parameters.</p>
 <p>The VGG 16 network architecture is as shown below:</p>
-<p><img src="images/image-20200217225919746.png" alt="VGG-Net"></p>
+<p><img src="image-20200217225919746.png" alt="VGG-Net"></p>
 <p>Source: <a href="https://www.researchgate.net/figure/Fig-A1-The-standard-VGG-16-network-architecture-as-proposed-in-32-Note-that-only_fig3_322512435">https://www.researchgate.net/figure/Fig-A1-The-standard-VGG-16-network-architecture-as-proposed-in-32-Note-that-only_fig3_322512435</a></p>
 <h2 id="problem-with-vgg-net--and-why-do-we-need-resnets">Problem with VGG Net  and why do we need ResNets:</h2>
 <p>But there was a problem with this architecture. There are a number of layers in this architecture and hence a large number of parameters. This increases complexity of the model. Also as the depth of the neural network increases, accuracy gets saturated and then after a point starts degrading rapidly. This degradation, unexpectedly, is not caused by overfitting. Adding more and more layers to these deep models leads to higher training errors as being tested during experiments mentioned in the paper <a href="https://arxiv.org/pdf/1512.03385.pdf">Deep Residual Learning for Image Recognition</a>.</p>
 <p>So, in short, as we add more layers to our deep neural networks, the training error increases. This can be understood using the image below:</p>
-<p><img src="images/image-20200217231328129.png" alt="Degradation"></p>
+<p><img src="image-20200217231328129.png" alt="Degradation"></p>
 <p>Another problem was that of <strong>Vanishing Gradient.</strong></p>
 <p>So, what is <strong>Vanishing Gradient?</strong> Well, as we keep on adding more layers to our neural network using some activation function, the gradients of the loss function tends to approach to zero which effectively prevents the weight from changing its value and hence making the network hard to train. During the <strong>backpropagation</strong> stage, the error is calculated and gradient values are determined. The gradients are sent back to hidden layers and the weights are updated accordingly. This process is continued until the input layer is reached. The gradient becomes smaller and smaller as it reaches the input layer. Therefore, the weights of the initial layers will either update very slowly or remain the same. In other words, the initial layers of the network won’t learn effectively. Hence, the deep neural network will find it difficult to converge and this will hamper the accuracy of the model and hence the training error increases. This problem was largely addressed by normalized initialization i.e. normalizing the initial weights of the networks and <strong>Batch Normalization</strong>.</p>
 <h3 id="batch-normalization">Batch Normalization:</h3>
@@ -162,7 +162,7 @@ Understanding VGG Net (VGG 16): VGG stands for Visual Geometry Group at Oxford U
 <li>
 <p><strong>Xavier/Glarot Initialization:</strong></p>
 <p>Xavier initialization initializes the weights in the network by drawing them from a distribution with zero mean and a specific variance. It is generally used with tanh activation.</p>
-<p><img src="images/image-20200222091718888.png" alt="Xavier/Glarot Initialization"></p>
+<p><img src="image-20200222091718888.png" alt="Xavier/Glarot Initialization"></p>
 </li>
 </ol>
 <p>where, fan_in is the number of inputs.</p>
@@ -170,13 +170,13 @@ Understanding VGG Net (VGG 16): VGG stands for Visual Geometry Group at Oxford U
 <li>
 <p><strong>He Initialization:</strong></p>
 <p>This is similar to Xavier initialization with a factor multiplies by 2. In order to attain global minimum of the cost function more faster and efficiently, the weights are initialized keeping in mind the size of the previous layer. This results in controlled initialization and as result faster and more efficient gradient descent.</p>
-<p><img src="images/image-20200222092543322.png" alt="He Initialization"></p>
+<p><img src="image-20200222092543322.png" alt="He Initialization"></p>
 </li>
 </ol>
 <p>Now that we have had a brief overview of what VGG net is and what problem it faces, we will move forward to understand what exactly is <strong>ResNet</strong> and how does it work.</p>
 <h2 id="residual-networks-resnet">Residual Networks (ResNet):</h2>
 <blockquote>
-<p><img src="images/Basic_ResNet_architecture.jpg" alt="Basic ResNet Architecture"></p>
+<p><img src="Basic_ResNet_architecture.jpg" alt="Basic ResNet Architecture"></p>
 </blockquote>
 <blockquote>
 <p>​																				Figure1: Residual Block</p>
@@ -185,7 +185,7 @@ Understanding VGG Net (VGG 16): VGG stands for Visual Geometry Group at Oxford U
 <p>But wait! What is <strong>Identity Mapping</strong>? You might be knowing of an Identity Matrix, I, which contains only 1&rsquo;s on the diagonal position starting from the top left corner and 0&rsquo;s on all other positions. This matrix when multiplied with any other matrix, suppose A, will give the same matrix such that AI = A. The same is happening here, applying identity mapping to the input will give you the output which is the same as the input.</p>
 <p>But what is the use of this Identity Mapping? Well, it enables backpropagation signal to reach from output (last) layers to input (first) layers. This is where the whole working of a Residual Neural Network takes place as compared to the conventional Convolutional Neural Network.</p>
 <p>As seen in Figure1, <strong>F(x)</strong> is the <strong>Residual Function</strong> or the <strong>Residual Mapping</strong> which is between two convolutional (weight) layers and can be said as the difference between the input (x) and the output (H(x)) of the residual block as shown in Figure1. So, the Residual Function F(x) can be written as:</p>
-<p><img src="images/Residual_Function.png" alt="Residual Function"></p>
+<p><img src="Residual_Function.png" alt="Residual Function"></p>
 <blockquote>
 <p>​																			Residual Function</p>
 </blockquote>
@@ -195,12 +195,12 @@ Understanding VGG Net (VGG 16): VGG stands for Visual Geometry Group at Oxford U
 <p>But when we use the residual function, even if the gradients tend to become zero i.e. even if <strong>H(x)</strong> becomes zero, the network will atleast learn <strong>x</strong> (since <strong>F(x) = H(x) - x</strong>) i.e. it saves the gradients from vanishing. As a result of this, the gradients reach the input layers and the weights are updated which helps the network to learn better and hence accuracy of the network increases. Interesting&hellip; isn&rsquo;t it?</p>
 <h2 id="resnet-architecture">ResNet Architecture</h2>
 <p>Now, let us look at the ResNet-34 architecture:</p>
-<p><img src="images/ResNet_Architecture.png" alt="ResNet-34 Architecture"></p>
+<p><img src="ResNet_Architecture.png" alt="ResNet-34 Architecture"></p>
 <blockquote>
 <p>Comparison of VGG-19, 34 layer plain neural network and 34-layer deep residual neural network</p>
 <p>The dotted lines indicate change in the size of the image from one residual block to another and is Linear Projection which can be accomplished by using 1x1 kernels.</p>
 </blockquote>
-<p><img src="images/ResNet_Architecture_1.png" alt="ResNet Architectures"></p>
+<p><img src="ResNet_Architecture_1.png" alt="ResNet Architectures"></p>
 <blockquote>
 <p>​												Various Deep Residual Network architectures</p>
 </blockquote>
