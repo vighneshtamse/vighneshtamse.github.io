@@ -166,7 +166,7 @@ plt<span style="color:#f92672">.</span>plot([<span style="color:#ae81ff">0.6</sp
 
 plt<span style="color:#f92672">.</span>xlim(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3.5</span>);
 </code></pre></div><p><img src="/img/output_9_1.png" alt="Output"></p>
-<p>Considering these 3 decision boundaries, the point &lsquo;x&rsquo; can easily be misclassified by these decision boundaries. Theefore we want our classifier to be robust to these kind of perturbations in the input that can lead to drastic change in the output. We will see how SVM will overcome this situation by plotting margins.</p>
+<p>Considering these 3 decision boundaries, the point &lsquo;x&rsquo; can easily be misclassified by these decision boundaries. Therefore we want our classifier to be robust to these kind of perturbations in the input that can lead to drastic change in the output. We will see how SVM will overcome this situation by plotting margins.</p>
 <p>We know that we can draw millions of lines or decision boundaries for classifying the classes but we want the best decision boundary which have <strong>good generalization performance</strong> and <strong>lowest out-of-sample error</strong>. For achieving this what SVM does is <em>instead of having a zero width line, as we have in the above graph, it draws a margin on both the sides of the line of finite length upto the nearest point</em>.</p>
 <h3 id="plotting-the-margins">Plotting the margins:</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">xfit <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3.5</span>)
@@ -319,7 +319,7 @@ plt<span style="color:#f92672">.</span>scatter(model<span style="color:#f92672">
 <h4 id="isnt-it-powerful-and-intuitive">Isn&rsquo;t it powerful and intuitive!</h4>
 <p>In this section we have tried to understand and implement how SVM works for both linear and non-linear data. Try implementing it with different set of data points.</p>
 <p>Hope you understood and liked this post. If you have any suggestions or any feedback please do reach out to me. I&rsquo;ll be happy to hear from you.</p>
-<p>Will see you in the next post. Till then take care, stay stafe and stay helathy!</p>
+<p>Will see you in the next post. Till then take care, stay safe and stay healthy!</p>
 
 		</div>
 	</article>
