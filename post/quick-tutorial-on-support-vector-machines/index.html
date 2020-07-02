@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Quick Tutorial on Support Vector Machines - Vighnesh Tamse | DataEnthu</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Quick Tutorial on Support Vector Machines" />
+<meta property="og:description" content="Support Vector Machines (SVMs) SVMs are a powerful class of supervised machines learning algorithms for both classification and regression problems. In the context of classification, they can be viewed as maximum margin linear classifiers. Why? Well, we&rsquo;ll see that in a bit
+The SVM uses an objective which explicitly encourages lower out-of-sample error (good generalization performance).
+For the first part we will assume that the two classes are linearly separable. For non-linear boundaries, we will see that we project the data points into higher dimension so that they can be separated linearly using a plane." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://vighneshtamse.github.io/post/quick-tutorial-on-support-vector-machines/" />
+<meta property="article:published_time" content="2020-07-02T19:53:35+05:30" />
+<meta property="article:modified_time" content="2020-07-02T19:53:35+05:30" />
+
+		<meta itemprop="name" content="Quick Tutorial on Support Vector Machines">
+<meta itemprop="description" content="Support Vector Machines (SVMs) SVMs are a powerful class of supervised machines learning algorithms for both classification and regression problems. In the context of classification, they can be viewed as maximum margin linear classifiers. Why? Well, we&rsquo;ll see that in a bit
+The SVM uses an objective which explicitly encourages lower out-of-sample error (good generalization performance).
+For the first part we will assume that the two classes are linearly separable. For non-linear boundaries, we will see that we project the data points into higher dimension so that they can be separated linearly using a plane.">
+<meta itemprop="datePublished" content="2020-07-02T19:53:35&#43;05:30" />
+<meta itemprop="dateModified" content="2020-07-02T19:53:35&#43;05:30" />
+<meta itemprop="wordCount" content="1542">
+
+
+
+<meta itemprop="keywords" content="" />
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Quick Tutorial on Support Vector Machines"/>
+<meta name="twitter:description" content="Support Vector Machines (SVMs) SVMs are a powerful class of supervised machines learning algorithms for both classification and regression problems. In the context of classification, they can be viewed as maximum margin linear classifiers. Why? Well, we&rsquo;ll see that in a bit
+The SVM uses an objective which explicitly encourages lower out-of-sample error (good generalization performance).
+For the first part we will assume that the two classes are linearly separable. For non-linear boundaries, we will see that we project the data points into higher dimension so that they can be separated linearly using a plane."/>
+
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Vighnesh Tamse | DataEnthu" rel="home">
+				<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/img/favicon.ico">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Vighnesh Tamse | DataEnthu</div>
+					<div class="logo__tagline">Machine Learning, Deep Learning and Data Science enthusiast</div>
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/post/">
+				
+				<span class="menu__text">Blog</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/projects/">
+				
+				<span class="menu__text">Projects</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/courses/">
+				
+				<span class="menu__text">Courses</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Quick Tutorial on Support Vector Machines</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Vighnesh Uday Tamse</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2020-07-02T19:53:35&#43;05:30">2020-07-02</time></div></div>
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#linearly-separable-classes">Linearly separable classes:</a>
+      <ul>
+        <li><a href="#many-possible-separators">Many possible separators:</a></li>
+        <li><a href="#plotting-the-margins">Plotting the margins:</a></li>
+      </ul>
+    </li>
+    <li><a href="#svm-in-practice">SVM in practice:</a>
+      <ul>
+        <li><a href="#plotting-the-svm-decision-boundaries">Plotting the SVM Decision Boundaries:</a></li>
+      </ul>
+    </li>
+    <li><a href="#overlapping-classes">Overlapping classes:</a></li>
+    <li><a href="#non-linearly-separable-classes">Non-Linearly separable classes:</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<h1 id="support-vector-machines-svms">Support Vector Machines (SVMs)</h1>
+<p><strong>SVMs</strong> are a powerful class of supervised machines learning algorithms for both classification and regression problems. In the context of classification, they can be viewed as <strong>maximum margin linear classifiers</strong>. Why? Well, we&rsquo;ll see that in a bit</p>
+<p>The SVM uses an objective which explicitly encourages <strong>lower out-of-sample error</strong> (good generalization performance).</p>
+<p>For the first part we will assume that the two classes are linearly separable. For non-linear boundaries, we will see that we project the data points into higher dimension so that they can be separated linearly using a plane.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline
+<span style="color:#f92672">from</span> scipy <span style="color:#f92672">import</span> stats
+
+<span style="color:#75715e">#for advanced plot styling</span>
+<span style="color:#f92672">import</span> seaborn <span style="color:#f92672">as</span> sns; sns<span style="color:#f92672">.</span>set()
+</code></pre></div><p>Let&rsquo;s create a dataset of two classes and let the classes be linearly separable for now.</p>
+<h2 id="linearly-separable-classes">Linearly separable classes:</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.datasets.samples_generator <span style="color:#f92672">import</span> make_blobs
+
+X,y <span style="color:#f92672">=</span> make_blobs(n_samples<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, centers<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, cluster_std<span style="color:#f92672">=</span><span style="color:#ae81ff">0.60</span>)
+plt<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>], X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>);
+</code></pre></div><p><img src="/img/output-1.png" alt="Output"></p>
+<p>Now, we know that we can differentiate these two classes by drawing a line (decision boundary) between them.  But we need to find the <code>optimum decision boundary</code> which will give us the <code>minimum in-sample error</code>.</p>
+<h3 id="many-possible-separators">Many possible separators:</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">xfit <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3.5</span>)
+plt<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>],X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>)
+plt<span style="color:#f92672">.</span>plot([<span style="color:#ae81ff">0.6</span>], [<span style="color:#ae81ff">2.1</span>], <span style="color:#e6db74">&#39;x&#39;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;green&#39;</span>, markeredgewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, markersize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+
+<span style="color:#75715e"># Even though we can plot infinite lines, we will plot 3 lines </span>
+<span style="color:#66d9ef">for</span> m, b <span style="color:#f92672">in</span> [(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0.65</span>), (<span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">1.6</span>), (<span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">2.9</span>)]: <span style="color:#75715e"># m = slope, b = bias, the tuples are the co-ordinates of the lines</span>
+    yfit <span style="color:#f92672">=</span> m<span style="color:#f92672">*</span>xfit<span style="color:#f92672">+</span>b
+    plt<span style="color:#f92672">.</span>plot(xfit, yfit, <span style="color:#e6db74">&#39;-k&#39;</span>) <span style="color:#75715e"># &#39;-k&#39; is used to color the lines &#39;black&#39;</span>
+
+plt<span style="color:#f92672">.</span>xlim(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3.5</span>);
+</code></pre></div><p><img src="/img/output_9_1.png" alt="Output"></p>
+<p>Considering these 3 decision boundaries, the point &lsquo;x&rsquo; can easily be misclassified by these decision boundaries. Theefore we want our classifier to be robust to these kind of perturbations in the input that can lead to drastic change in the output. We will see how SVM will overcome this situation by plotting margins.</p>
+<p>We know that we can draw millions of lines or decision boundaries for classifying the classes but we want the best decision boundary which have <strong>good generalization performance</strong> and <strong>lowest out-of-sample error</strong>. For achieving this what SVM does is <em>instead of having a zero width line, as we have in the above graph, it draws a margin on both the sides of the line of finite length upto the nearest point</em>.</p>
+<h3 id="plotting-the-margins">Plotting the margins:</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">xfit <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3.5</span>)
+plt<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>],X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>)
+plt<span style="color:#f92672">.</span>plot([<span style="color:#ae81ff">0.6</span>], [<span style="color:#ae81ff">2.1</span>], <span style="color:#e6db74">&#39;x&#39;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;green&#39;</span>, markeredgewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, markersize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+
+<span style="color:#75715e"># Even though we can plot infinite lines, we will plot 3 lines </span>
+<span style="color:#66d9ef">for</span> m, b, d <span style="color:#f92672">in</span> [(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0.65</span>, <span style="color:#ae81ff">0.33</span>), (<span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">1.6</span>, <span style="color:#ae81ff">0.55</span>), (<span style="color:#f92672">-</span><span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">2.9</span>, <span style="color:#ae81ff">0.2</span>)]: <span style="color:#75715e"># m = slope, b = bias, the tuples are the co-ordinates of the lines</span>
+    yfit <span style="color:#f92672">=</span> m<span style="color:#f92672">*</span>xfit<span style="color:#f92672">+</span>b
+    plt<span style="color:#f92672">.</span>plot(xfit, yfit, <span style="color:#e6db74">&#39;-k&#39;</span>) <span style="color:#75715e"># &#39;-k&#39; is used to color the lines &#39;black&#39;</span>
+    plt<span style="color:#f92672">.</span>fill_between(xfit, yfit <span style="color:#f92672">-</span> d, yfit <span style="color:#f92672">+</span> d, edgecolor <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;none&#39;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#AAAAAA&#39;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>) <span style="color:#75715e"># alpha is for transparency</span>
+
+plt<span style="color:#f92672">.</span>xlim(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3.5</span>);
+</code></pre></div><p><img src="/img/output_13_0.png" alt="Output"></p>
+<p>What SVM does is it chooses the decision boundary which has the <code>maximum margin</code> and chooses it as the optimum model.</p>
+<h2 id="svm-in-practice">SVM in practice:</h2>
+<p>Now that we have a good understanding of when to use SVM, let&rsquo;s see how to implement SVM from scratch using scikit-learn.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.svm <span style="color:#f92672">import</span> SVC <span style="color:#75715e"># Support Vector Classifier</span>
+model <span style="color:#f92672">=</span> SVC(kernel<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;linear&#39;</span>, C<span style="color:#f92672">=</span><span style="color:#ae81ff">1E10</span>)
+<span style="color:#e6db74">&#39;&#39;&#39;Here C is a hyper parameter that decides how much classification error is allowed. If C is large means the margins are hard
+</span><span style="color:#e6db74">margins meaning that very few or none of the data points will be allowed to creep into the margin space. If C is small means 
+</span><span style="color:#e6db74">the margins are soft margins and some of the data points may be allowed to creep into the margin space. You need to experiment
+</span><span style="color:#e6db74">with this value of C to allow your model to fit the data better.&#39;&#39;&#39;</span>
+model<span style="color:#f92672">.</span>fit(X,y)
+</code></pre></div><pre><code>SVC(C=10000000000.0, break_ties=False, cache_size=200, class_weight=None,
+    coef0=0.0, decision_function_shape='ovr', degree=3, gamma='scale',
+    kernel='linear', max_iter=-1, probability=False, random_state=None,
+    shrinking=True, tol=0.001, verbose=False)
+</code></pre>
+<p>This does not seem to be very intuitive. So let&rsquo;s plot the decision boundaries.</p>
+<h3 id="plotting-the-svm-decision-boundaries">Plotting the SVM Decision Boundaries:</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">plt_decision_boundaries</span>(model, ax<span style="color:#f92672">=</span>None, plot_support<span style="color:#f92672">=</span>True):
+    <span style="color:#66d9ef">if</span> ax <span style="color:#f92672">is</span> None:
+        ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>gca()
+    xlim <span style="color:#f92672">=</span> ax<span style="color:#f92672">.</span>get_xlim()
+    ylim <span style="color:#f92672">=</span> ax<span style="color:#f92672">.</span>get_ylim()
+    
+    <span style="color:#75715e"># create a gris to evaluate the model</span>
+    x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(xlim[<span style="color:#ae81ff">0</span>], xlim[<span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">30</span>)
+    y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(ylim[<span style="color:#ae81ff">0</span>], ylim[<span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">30</span>)
+    
+    Y, X <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>meshgrid(y, x)
+    <span style="color:#e6db74">&#39;&#39;&#39; The numpy.meshgrid function is used to create a rectangular grid out of two given one-dimensional arrays representing 
+</span><span style="color:#e6db74">    the Cartesian indexing or Matrix indexing. It returns two 2-Dimensional arrays  representing the X and Y coordinates of 
+</span><span style="color:#e6db74">    all the points.&#39;&#39;&#39;</span>
+    
+    xy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>vstack([X<span style="color:#f92672">.</span>ravel(), Y<span style="color:#f92672">.</span>ravel()])<span style="color:#f92672">.</span>T
+    <span style="color:#e6db74">&#39;&#39;&#39;numpy. vstack() function is used to stack the sequence of input arrays vertically to make a single array.&#39;&#39;&#39;</span>
+    
+    P <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>decision_function(xy)<span style="color:#f92672">.</span>reshape(X<span style="color:#f92672">.</span>shape)
+    
+    <span style="color:#75715e"># Plotting decision boundaries and margins</span>
+    ax<span style="color:#f92672">.</span>contour(X, Y, P, colors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;k&#39;</span>,
+               levels<span style="color:#f92672">=</span>[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>], alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>,
+               linestyles<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;--&#39;</span>, <span style="color:#e6db74">&#39;-&#39;</span>, <span style="color:#e6db74">&#39;--&#39;</span>])
+    
+    <span style="color:#75715e"># Plotting the Support Vectors</span>
+    <span style="color:#e6db74">&#39;&#39;&#39;Support Vectors are the vectors that define the hyperplane. These are the data points that are closest to the margins 
+</span><span style="color:#e6db74">    of the decision boundary. The margins of the decision boundaries are formed as a result of these Support Vectors.&#39;&#39;&#39;</span>
+    <span style="color:#66d9ef">if</span> plot_support:
+        ax<span style="color:#f92672">.</span>scatter(model<span style="color:#f92672">.</span>support_vectors_[:, <span style="color:#ae81ff">0</span>],
+                   model<span style="color:#f92672">.</span>support_vectors_[:, <span style="color:#ae81ff">1</span>],
+                   s<span style="color:#f92672">=</span><span style="color:#ae81ff">300</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, facecolors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>);
+    
+    ax<span style="color:#f92672">.</span>set_xlim(xlim)
+    ax<span style="color:#f92672">.</span>set_ylim(ylim)
+    
+plt<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>], X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>)
+plt_decision_boundaries(model);
+</code></pre></div><p><img src="/img/output_19_0.png" alt="Output"></p>
+<p>The dotted lines here are known as <strong>Margins</strong>. The data points touching these margins are known as <strong>Support Vectors</strong>. In Scikit-Learn, the identity of these points are stored in the <code>support_vectors_</code> attribute of the Support Vector Classifier.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model<span style="color:#f92672">.</span>support_vectors_
+</code></pre></div><pre><code>array([[0.44359863, 3.11530945],
+       [2.33812285, 3.43116792],
+       [2.06156753, 1.96918596]])
+</code></pre>
+<h2 id="overlapping-classes">Overlapping classes:</h2>
+<p>The data points of the two classes that we have seen in the above example were very clearly separable i.e. there was no overlap between the data points of the two classes. <strong>But what if there is an overlap between the points of the two classes?</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">X, y <span style="color:#f92672">=</span> make_blobs(n_samples<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>, centers<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, cluster_std<span style="color:#f92672">=</span><span style="color:#ae81ff">1.2</span>)
+plt<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>], X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>);
+</code></pre></div><p><img src="/img/output_24_0.png" alt="Output"></p>
+<p>In order to handle such cases, we need to tune the hyperparameter <strong>C</strong> of the SVC model. This process of tuning the hyperparameters of a model for a better fit is usually known as <strong>Hyperparameter Tuning</strong>.
+Depending upon the value of C, we can have soft or hard margins which decides how much classification error is permittable.</p>
+<p>We will now see how changing the value of C affects the fit of our model.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">X, y <span style="color:#f92672">=</span> make_blobs(n_samples<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>, centers<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, cluster_std<span style="color:#f92672">=</span><span style="color:#ae81ff">0.8</span>)
+
+fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">6</span>))
+fig<span style="color:#f92672">.</span>subplots_adjust(left<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0625</span>, right<span style="color:#f92672">=</span><span style="color:#ae81ff">0.95</span>, wspace<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>)
+
+<span style="color:#66d9ef">for</span> axi, C <span style="color:#f92672">in</span> zip(ax, [<span style="color:#ae81ff">10.0</span>, <span style="color:#ae81ff">0.1</span>]):
+    model <span style="color:#f92672">=</span> SVC(kernel<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;linear&#39;</span>, C<span style="color:#f92672">=</span>C)<span style="color:#f92672">.</span>fit(X, y)
+    axi<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>], X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;autumn&#39;</span>)
+    plt_decision_boundaries(model, axi)
+    axi<span style="color:#f92672">.</span>scatter(model<span style="color:#f92672">.</span>support_vectors_[:, <span style="color:#ae81ff">0</span>],
+                model<span style="color:#f92672">.</span>support_vectors_[:, <span style="color:#ae81ff">1</span>],
+                s<span style="color:#f92672">=</span><span style="color:#ae81ff">300</span>, lw<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, facecolors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>);
+    axi<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;C = {0:.1f}&#39;</span><span style="color:#f92672">.</span>format(C), size<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>)
+</code></pre></div><p><img src="/img/output_26_0.png" alt="Output"></p>
+<p>As you can see in the first figure where <code>C=10</code>, very less or none of the data points were allowed to enter into the margin space which is not the case in the second figure where the value of <code>C=0.1</code>.</p>
+<h2 id="non-linearly-separable-classes">Non-Linearly separable classes:</h2>
+<p>Till now in our discussion we have seen data that is linearly separable. But what if the data points of the classes are not linearly separable? What if it is something like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.datasets.samples_generator <span style="color:#f92672">import</span> make_circles
+X, y <span style="color:#f92672">=</span> make_circles(<span style="color:#ae81ff">100</span>, factor<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>, noise<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>)
+
+plt<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>], X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>)
+</code></pre></div><pre><code>&lt;matplotlib.collections.PathCollection at 0x24fc9c3d988&gt;
+</code></pre>
+<p><img src="/img/output_30_1.png" alt="Output"></p>
+<p>Let&rsquo;s see what happens if we try to fit the SVC model with kernel as linear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.datasets.samples_generator <span style="color:#f92672">import</span> make_circles
+X, y <span style="color:#f92672">=</span> make_circles(<span style="color:#ae81ff">100</span>, factor<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>, noise<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>)
+
+plt<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>], X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>)
+
+model <span style="color:#f92672">=</span> SVC(kernel<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;linear&#39;</span>)<span style="color:#f92672">.</span>fit(X, y)
+plt_decision_boundaries(model, plot_support<span style="color:#f92672">=</span>False);
+</code></pre></div><p><img src="/img/output_32_0.png" alt="Output"></p>
+<p>This doesn&rsquo;t seem to be good, right? Our linear SVC model is not able to differentiate at all between the classes.<!-- raw HTML omitted --></p>
+<p>Remember at the beginning we discussed in short that if the classes are not linearly we would project the data to higher dimension and then draw a hyperplane that would separate the classes?
+Lets visualize the data in 3D since we have only 2 classes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">r <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>exp(<span style="color:#f92672">-</span>(X <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span>)<span style="color:#f92672">.</span>sum(<span style="color:#ae81ff">1</span>))
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> mpl_toolkits <span style="color:#f92672">import</span> mplot3d
+<span style="color:#f92672">from</span> ipywidgets <span style="color:#f92672">import</span> interact, fixed
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">plot_3D</span>(elev<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>, azim<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>, X<span style="color:#f92672">=</span>X, y<span style="color:#f92672">=</span>y):
+    ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(projection<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;3d&#39;</span>)
+    ax<span style="color:#f92672">.</span>scatter3D(X[:, <span style="color:#ae81ff">0</span>], X[:, <span style="color:#ae81ff">1</span>], r, c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>)
+    ax<span style="color:#f92672">.</span>view_init(elev<span style="color:#f92672">=</span>elev, azim<span style="color:#f92672">=</span>azim)
+    ax<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;x&#39;</span>)
+    ax<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+    ax<span style="color:#f92672">.</span>set_zlabel(<span style="color:#e6db74">&#39;r&#39;</span>)
+
+interact(plot_3D, elev<span style="color:#f92672">=</span>[<span style="color:#f92672">-</span><span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">150</span>], azip<span style="color:#f92672">=</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">150</span>), X<span style="color:#f92672">=</span>fixed(X), y<span style="color:#f92672">=</span>fixed(y));
+</code></pre></div><p><img src="/img/output_35_0.png" alt="Output"></p>
+<p>When we project the data to higher dimensions we see that the data becomes linearly separable and we can separate the data using a hyperplane.</p>
+<p>But there is one problem here. We had only two classes here so projecting to 3D was no problem but what if there were N classes? We have to project it to N+1 dimensions which is not feasible.<!-- raw HTML omitted --></p>
+<p>Thanks to SVM, we can overcome this by using the <strong>kernel</strong> hyperparameter. Using what is called as the <em>kernel trick</em> we can separate the classes without projecting the data to higher dimensions. We just need to change the kernel from Linear to <strong>RBF (Radial Basis Function)</strong>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model <span style="color:#f92672">=</span> SVC(kernel<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rbf&#39;</span>, C<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+model<span style="color:#f92672">.</span>fit(X, y)
+</code></pre></div><pre><code>SVC(C=10, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,
+    decision_function_shape='ovr', degree=3, gamma='scale', kernel='rbf',
+    max_iter=-1, probability=False, random_state=None, shrinking=True,
+    tol=0.001, verbose=False)
+</code></pre>
+<p>Let&rsquo;s plot the decision boundaries.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#f92672">.</span>scatter(X[:, <span style="color:#ae81ff">0</span>], X[:, <span style="color:#ae81ff">1</span>], c<span style="color:#f92672">=</span>y, s<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;summer&#39;</span>)
+plt_decision_boundaries(model)
+plt<span style="color:#f92672">.</span>scatter(model<span style="color:#f92672">.</span>support_vectors_[:, <span style="color:#ae81ff">0</span>], model<span style="color:#f92672">.</span>support_vectors_[:, <span style="color:#ae81ff">1</span>], s<span style="color:#f92672">=</span><span style="color:#ae81ff">300</span>, lw<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, facecolors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>);
+</code></pre></div><p><img src="/img/output_38_0.png" alt="Output"></p>
+<h4 id="isnt-it-powerful-and-intuitive">Isn&rsquo;t it powerful and intuitive!</h4>
+<p>In this section we have tried to understand and implement how SVM works for both linear and non-linear data. Try implementing it with different set of data points.</p>
+<p>Hope you understood and liked this post. If you have any suggestions or any feedback please do reach out to me. I&rsquo;ll be happy to hear from you.</p>
+<p>Will see you in the next post. Till then take care, stay stafe and stay helathy!</p>
+
+		</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Vighnesh Uday Tamse avatar" src="/img/Job_Photo.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Vighnesh Uday Tamse</span>
+	</div>
+	<div class="authorbox__description">
+		I am a Data Science enthusiast with interests in Machine Learning, Deep Learning, Data Analysis and Data Visualization. I try to write posts about what I understand when I read something new and interesting in the field of Data Science.
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/post/basic-pytorch-functions/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">5 Basic Pytorch Functions</p>
+		</a>
+	</div>
+</nav>
+
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Vighnesh Uday Tamse.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+<script src="/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

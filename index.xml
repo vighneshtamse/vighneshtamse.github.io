@@ -6,10 +6,21 @@
     <description>Recent content on Vighnesh Tamse | DataEnthu</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jun 2020 15:02:07 +0530</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2020 19:53:35 +0530</lastBuildDate>
     
 	<atom:link href="https://vighneshtamse.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Quick Tutorial on Support Vector Machines</title>
+      <link>https://vighneshtamse.github.io/post/quick-tutorial-on-support-vector-machines/</link>
+      <pubDate>Thu, 02 Jul 2020 19:53:35 +0530</pubDate>
+      
+      <guid>https://vighneshtamse.github.io/post/quick-tutorial-on-support-vector-machines/</guid>
+      <description>Support Vector Machines (SVMs) SVMs are a powerful class of supervised machines learning algorithms for both classification and regression problems. In the context of classification, they can be viewed as maximum margin linear classifiers. Why? Well, we&amp;rsquo;ll see that in a bit
+The SVM uses an objective which explicitly encourages lower out-of-sample error (good generalization performance).
+For the first part we will assume that the two classes are linearly separable. For non-linear boundaries, we will see that we project the data points into higher dimension so that they can be separated linearly using a plane.</description>
+    </item>
     
     <item>
       <title>5 Basic Pytorch Functions</title>
